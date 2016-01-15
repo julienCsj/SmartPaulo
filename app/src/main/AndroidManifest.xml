@@ -28,15 +28,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBhY_3kcgGBv14lkJhqIFsQEhkDRJZWRYM" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
