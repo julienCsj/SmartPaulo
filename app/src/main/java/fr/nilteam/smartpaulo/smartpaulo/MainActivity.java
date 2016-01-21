@@ -21,6 +21,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -133,7 +136,12 @@ public class MainActivity extends AppCompatActivity
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
     }
     public void setPointsOfInterest (List<PointOfInterest> pointsOfInterest) {
-        //TODO: Afficher les pointeurs sur la carte. Voir PointOfInterest pour les attributs de chaque point d'interet
-        Log.e("PointsOfInterest", "PointsOfInterest loaded");
+
+        for (PointOfInterest p : pointsOfInterest) {
+            MarkerOptions option = new MarkerOptions();
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                    .title("Hello world"));
+        }
     }
 }
