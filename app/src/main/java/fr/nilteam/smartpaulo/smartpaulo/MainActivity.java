@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        APIService.INSTANCE.fetchPointsOfInterest(this);
     }
 
     @Override
@@ -126,6 +130,10 @@ public class MainActivity extends AppCompatActivity
         // Centre de la camera sur la localisation
         //googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(googleMap.getMyLocation().getLatitude(), googleMap.getMyLocation().getLongitude())));
         // De 2.0 à 21.0. 2 étant le zoom maximal
-        googleMap.animateCamera( CameraUpdateFactory.zoomTo(10.0f) );
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
+    }
+    public void setPointsOfInterest (List<PointOfInterest> pointsOfInterest) {
+        //TODO: Afficher les pointeurs sur la carte. Voir PointOfInterest pour les attributs de chaque point d'interet
+        Log.e("PointsOfInterest", "PointsOfInterest loaded");
     }
 }
