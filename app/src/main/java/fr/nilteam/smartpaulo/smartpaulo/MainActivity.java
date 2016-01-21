@@ -3,11 +3,9 @@ package fr.nilteam.smartpaulo.smartpaulo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +22,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -62,6 +61,8 @@ public class MainActivity extends AppCompatActivity
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        APIService.INSTANCE.fetchPointsOfInterest(this);
     }
 
     @Override
@@ -96,16 +97,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_settings) {
+            Intent intent = new Intent(getApplicationContext(), Settings.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -133,8 +127,18 @@ public class MainActivity extends AppCompatActivity
         }
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
-        // De 2.0 à 21.0. 2 étant le zoom maximal
+        // Zoom de 2.0 à 21.0. Le centrage se fait sur le centre de la fac
         LatLng pos = new LatLng(43.563637f, 1.470986f);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15.0f));
+    }
+
+    public void setPointsOfInterest (List<PointOfInterest> pointsOfInterest) {
+
+        for (PointOfInterest p : pointsOfInterest) {
+            MarkerOptions option = new MarkerOptions();
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
+                    .title("Hello world"));
+        }
     }
 }
