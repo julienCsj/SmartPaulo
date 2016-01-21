@@ -79,13 +79,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <MultiAutoCompleteTextView
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choisir des tags"
-        android:id="@+id/multiAutoCompleteTextView"
+        android:id="@+id/spinner"
         android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/buttonReprendrePhoto"
-        android:layout_alignStart="@+id/buttonReprendrePhoto" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -12,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.location.LocationRequest;
 
 import java.io.File;
 
@@ -25,6 +29,7 @@ public class FormulairePhoto extends AppCompatActivity {
     private Button buttonAnnuler;
     private Button buttonAjouter;
     private Button buttonReprendrePhoto;
+    private Spinner spinner;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
 
@@ -43,6 +48,10 @@ public class FormulairePhoto extends AppCompatActivity {
         buttonAjouter.setOnClickListener(ajouterPointInteret);
         buttonAnnuler.setOnClickListener(annuler);
         buttonReprendrePhoto.setOnClickListener(reprendrePhoto);
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<Tags>(this, android.R.layout.simple_spinner_item, Tags.values()));
+
 
 
         // prendre une photo
@@ -105,4 +114,11 @@ public class FormulairePhoto extends AppCompatActivity {
             takePhoto();
         }
     };
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 }
