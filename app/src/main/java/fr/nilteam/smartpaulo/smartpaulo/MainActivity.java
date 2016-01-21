@@ -3,9 +3,11 @@ package fr.nilteam.smartpaulo.smartpaulo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,17 +22,24 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private GoogleMap googleMap;
+    private UserLocation userLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        userLoc = new UserLocation(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SmartPaulo");
+        toolbar.setLogo(R.drawable.logo_mini);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -78,12 +87,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -130,9 +133,8 @@ public class MainActivity extends AppCompatActivity
         }
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
-        // Centre de la camera sur la localisation
-        //googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(googleMap.getMyLocation().getLatitude(), googleMap.getMyLocation().getLongitude())));
         // De 2.0 à 21.0. 2 étant le zoom maximal
-        googleMap.animateCamera( CameraUpdateFactory.zoomTo(10.0f) );
+        LatLng pos = new LatLng(43.563637f, 1.470986f);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15.0f));
     }
 }

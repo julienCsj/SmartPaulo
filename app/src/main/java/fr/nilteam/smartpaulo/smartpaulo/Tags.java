@@ -5,7 +5,8 @@ package fr.nilteam.smartpaulo.smartpaulo;
  */
 public enum Tags {
     ACCIDENT("Accident"),
-    INSSALUBRITE("Inssalubrité"),
+    RECYCLAGE("Recyclage"),
+    INSALUBRITE("Insalubrité"),
     VENDALISME("Vendalisme");
 
     private String traduction;

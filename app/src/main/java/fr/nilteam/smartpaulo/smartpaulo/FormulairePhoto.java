@@ -36,8 +36,7 @@ public class FormulairePhoto extends AppCompatActivity {
     private Button buttonAjouter;
     private Button buttonReprendrePhoto;
     private Spinner spinner;
-    private Location currentLocation;
-    LocationManager mLocationManager;
+    private UserLocation userLoc;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
 
@@ -48,6 +47,9 @@ public class FormulairePhoto extends AppCompatActivity {
 
         iv = (ImageView) findViewById(R.id.imageView2);
         iv.setMaxHeight(200);
+
+        getSupportActionBar().setTitle("SmartPaulo - Ajout de photo");
+
         buttonAjouter = (Button) findViewById(R.id.buttonAjouter);
         buttonAnnuler = (Button) findViewById(R.id.buttonAnnuler);
         buttonReprendrePhoto = (Button) findViewById(R.id.buttonReprendrePhoto);
@@ -59,12 +61,7 @@ public class FormulairePhoto extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(new ArrayAdapter<Tags>(this, android.R.layout.simple_spinner_item, Tags.values()));
 
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 0F, mLocationListener);
-
+        userLoc = new UserLocation(this);
 
         // prendre une photo
         takePhoto();
@@ -111,9 +108,9 @@ public class FormulairePhoto extends AppCompatActivity {
 
     private View.OnClickListener ajouterPointInteret = new View.OnClickListener() {
         public void onClick(View arg0) {
-            if(currentLocation != null) {
+            if(userLoc.getLocation() != null) {
                 Context context = getApplicationContext();
-                CharSequence text = "Location ["+currentLocation.getLatitude()+", "+currentLocation.getLongitude()+"] Alt : "+currentLocation.getAltitude()+ "m - Précision : "+currentLocation.getAccuracy();
+                CharSequence text = "Location ["+userLoc.getLocation().getLatitude()+", "+userLoc.getLocation().getLongitude()+"] Alt : "+userLoc.getLocation().getAltitude()+ "m - Précision : "+userLoc.getLocation().getAccuracy();
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -131,28 +128,6 @@ public class FormulairePhoto extends AppCompatActivity {
     private View.OnClickListener reprendrePhoto = new View.OnClickListener() {
         public void onClick(View arg0) {
             takePhoto();
-        }
-    };
-
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            currentLocation = location;
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
         }
     };
 }
