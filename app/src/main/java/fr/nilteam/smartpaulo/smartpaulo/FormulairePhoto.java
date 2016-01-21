@@ -1,13 +1,20 @@
 package fr.nilteam.smartpaulo.smartpaulo;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationRequest;
 
 import java.io.File;
 
@@ -30,8 +36,9 @@ public class FormulairePhoto extends AppCompatActivity {
     private Button buttonAjouter;
     private Button buttonReprendrePhoto;
     private Spinner spinner;
+    private Location currentLocation;
+    LocationManager mLocationManager;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-
 
 
     @Override
@@ -52,6 +59,11 @@ public class FormulairePhoto extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(new ArrayAdapter<Tags>(this, android.R.layout.simple_spinner_item, Tags.values()));
 
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 0F, mLocationListener);
 
 
         // prendre une photo
@@ -99,7 +111,14 @@ public class FormulairePhoto extends AppCompatActivity {
 
     private View.OnClickListener ajouterPointInteret = new View.OnClickListener() {
         public void onClick(View arg0) {
+            if(currentLocation != null) {
+                Context context = getApplicationContext();
+                CharSequence text = "Location ["+currentLocation.getLatitude()+", "+currentLocation.getLongitude()+"] Alt : "+currentLocation.getAltitude()+ "m - Précision : "+currentLocation.getAccuracy();
+                int duration = Toast.LENGTH_LONG;
 
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
         }
     };
 
@@ -115,10 +134,25 @@ public class FormulairePhoto extends AppCompatActivity {
         }
     };
 
-    protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            currentLocation = location;
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
 }
