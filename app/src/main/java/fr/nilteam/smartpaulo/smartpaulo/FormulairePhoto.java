@@ -127,7 +127,7 @@ public class FormulairePhoto extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
-            Bitmap bm = BitmapFactory.decodeFile("/path/to/image.jpg");
+            Bitmap bm = bitmap;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
             byte[] byteArrayImage = baos.toByteArray();
@@ -138,7 +138,7 @@ public class FormulairePhoto extends AppCompatActivity {
             params.put("latitude", 4.23145);
             params.put("longitude", 41.4532);
             params.put("photo", encodedImage);
-            String pseudo = settings.getString("pseudo", "julienlenooby");
+            String pseudo = settings.getString("pseudo", "");
             params.put("username", pseudo);
             APIService.INSTANCE.pushPointOfInterest(null, params);
         }
