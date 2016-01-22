@@ -1,6 +1,10 @@
 package fr.nilteam.smartpaulo.smartpaulo.model;
 
+import com.google.android.gms.maps.model.Marker;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Leo on 21/01/16.
@@ -17,6 +21,8 @@ public class PointOfInterest {
     private long zone_longitude1;
     private long zone_latitude2;
     private long zone_longitude2;
+
+    public static Map<String, PointOfInterest> mapMarkerPoi = new HashMap<String, PointOfInterest>();
 
     public PointOfInterest(long latitude, long longitude, String photo_url, List<Tags> tags, String username, long created_at, long zone_latitude1, long zone_longitude1, long zone_latitude2, long zone_longitude2) {
         this.latitude = latitude;

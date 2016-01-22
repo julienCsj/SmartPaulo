@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleMap googleMap;
     private MapService mService;
-    private Map<Marker, PointOfInterest> mapMarkerPoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        mapMarkerPoi = new HashMap<Marker, PointOfInterest>();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -148,15 +145,19 @@ public class MainActivity extends AppCompatActivity
             m = googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(p.getLatitude(), p.getLongitude()))
                     .title("Hello world"));
-            mapMarkerPoi.put(m, p);
+            PointOfInterest.mapMarkerPoi.put(m.getId(), p);
         }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Intent intent = new Intent(getApplicationContext(), InterestPoint.class);
-        intent.putExtra("pointOfInterest", mapMarkerPoi.get(marker).getPhoto_url());
-        startActivity(intent);
-        return true;
+        if (PointOfInterest.mapMarkerPoi.containsKey(marker.getId())) {
+            Intent intent = new Intent(getApplicationContext(), InterestPoint.class);
+            intent.putExtra("markerId", marker.getId());
+            startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

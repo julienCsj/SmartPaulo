@@ -17,7 +17,8 @@ public class InterestPoint extends AppCompatActivity {
         setContentView(R.layout.activity_interest_point);
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        // requete a partir de l'id pour récupérer le poi
+        poi = PointOfInterest.mapMarkerPoi.get(intent.getStringExtra("markerId"));
     }
+
+
 }
