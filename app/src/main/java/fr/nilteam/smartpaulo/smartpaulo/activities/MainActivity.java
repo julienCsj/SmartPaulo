@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,17 +138,7 @@ public class MainActivity extends AppCompatActivity
         googleMap.setOnMarkerClickListener(this);
         mService.initMapPosition(this);
         mService.populateMap();
-    }
-
-    public void setPointsOfInterest (List<PointOfInterest> pointsOfInterest) {
-        Marker m;
-        for (PointOfInterest p : pointsOfInterest) {
-            MarkerOptions option = new MarkerOptions();
-            m = googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(p.getLatitude(), p.getLongitude()))
-                    .title("Hello world"));
-            PointOfInterest.mapMarkerPoi.put(m.getId(), p);
-        }
+        mService.populatePointsOfInterest();
     }
 
     @Override
