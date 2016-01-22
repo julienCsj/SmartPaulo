@@ -57,11 +57,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.FormulairePhoto" />
-        <activity android:name=".activities.Settings"></activity>
+        <activity android:name=".activities.Settings" />
         <activity
             android:name=".activities.About"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.InterestPoint"></activity>
     </application>
 
 </manifest>
