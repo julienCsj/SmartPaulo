@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Select;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ActiveAndroid.initialize(this);
+
+
         userLoc = new UserLocation(this);
 
         super.onCreate(savedInstanceState);
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        APIService.INSTANCE.fetchPointsOfInterest(this);
+ //       APIService.INSTANCE.fetchPointsOfInterest(this);
     }
 
     @Override
@@ -127,6 +133,15 @@ public class MainActivity extends AppCompatActivity
         googleMap = map;
         setupGoogleMap();
         populateMap();
+
+        List<PointOfInterest> points = new Select()
+                .from(PointOfInterest.class)
+                .execute();
+
+        for (PointOfInterest p : points) {
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(-31.90, 115.86)).draggable(false).title(p.getTags()));
+        }
+
     }
 
     public void setupGoogleMap() {

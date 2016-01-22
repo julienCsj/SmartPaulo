@@ -135,6 +135,7 @@
     <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="mediarouter-v7-23.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wallet-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="activeandroid-3.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="play-services-appstate-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-panorama-8.4.0" level="project" />

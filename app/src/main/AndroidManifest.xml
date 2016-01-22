@@ -38,6 +38,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBhY_3kcgGBv14lkJhqIFsQEhkDRJZWRYM" />
 
+        <meta-data android:name="AA_DB_NAME" android:value="SmartPaulo.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.

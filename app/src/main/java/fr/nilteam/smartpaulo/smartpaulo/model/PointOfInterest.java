@@ -1,41 +1,57 @@
 package fr.nilteam.smartpaulo.smartpaulo.model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.util.List;
 
 /**
  * Created by Leo on 21/01/16.
  */
-public class PointOfInterest {
-    private long latitude;
-    private long longitude;
+@Table(name = "points")
+public class PointOfInterest extends Model {
+    @Column(name = "latitude")
+    private Double latitude;
+    @Column(name = "longitude")
+    private Double longitude;
+    @Column(name = "photo_url")
     private String photo_url;
-    private List<Tags> tags;
+    @Column(name = "tag")
+    private String tag;
+    @Column(name = "username")
     private String username;
-    private long created_at;
 
-    private long zone_latitude1;
-    private long zone_longitude1;
-    private long zone_latitude2;
-    private long zone_longitude2;
+    @Column(name = "zone_latitude1")
+    private Double zone_latitude1;
+    @Column(name = "zone_longitude1")
+    private Double zone_longitude1;
+    @Column(name = "zone_latitude2")
+    private Double zone_latitude2;
+    @Column(name = "zone_longitude2")
+    private Double zone_longitude2;
 
-    public PointOfInterest(long latitude, long longitude, String photo_url, List<Tags> tags, String username, long created_at, long zone_latitude1, long zone_longitude1, long zone_latitude2, long zone_longitude2) {
+    public PointOfInterest() {
+
+    }
+
+    public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username, Double zone_latitude1, Double zone_longitude1, Double zone_latitude2, Double zone_longitude2) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.photo_url = photo_url;
-        this.tags = tags;
+        this.tag = tag;
         this.username = username;
-        this.created_at = created_at;
         this.zone_latitude1 = zone_latitude1;
         this.zone_longitude1 = zone_longitude1;
         this.zone_latitude2 = zone_latitude2;
         this.zone_longitude2 = zone_longitude2;
     }
 
-    public long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
@@ -43,31 +59,42 @@ public class PointOfInterest {
         return photo_url;
     }
 
-    public List<Tags> getTags() {
-        return tags;
+    public String getTags() {
+        return tag;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public long getCreated_at() {
-        return created_at;
-    }
-
-    public long getZone_latitude1() {
+    public Double getZone_latitude1() {
         return zone_latitude1;
     }
 
-    public long getZone_longitude1() {
+    public Double getZone_longitude1() {
         return zone_longitude1;
     }
 
-    public long getZone_latitude2() {
+    public Double getZone_latitude2() {
         return zone_latitude2;
     }
 
-    public long getZone_longitude2() {
+    public Double getZone_longitude2() {
         return zone_longitude2;
+    }
+
+    @Override
+    public String toString() {
+        return "PointOfInterest{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", photo_url='" + photo_url + '\'' +
+                ", tag='" + tag + '\'' +
+                ", username='" + username + '\'' +
+                ", zone_latitude1=" + zone_latitude1 +
+                ", zone_longitude1=" + zone_longitude1 +
+                ", zone_latitude2=" + zone_latitude2 +
+                ", zone_longitude2=" + zone_longitude2 +
+                '}';
     }
 }

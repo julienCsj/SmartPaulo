@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
+import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
 import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
 import fr.nilteam.smartpaulo.smartpaulo.utils.UserLocation;
@@ -120,20 +121,16 @@ public class FormulairePhoto extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
-            Bitmap bm = bitmap;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] byteArrayImage = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+//            Bitmap bm = bitmap;
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+//            byte[] byteArrayImage = baos.toByteArray();
+//            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
 
-            Map<String, Object> params = new HashMap();
-            params.put("tags", "sometags");
-            params.put("latitude", 4.23145);
-            params.put("longitude", 41.4532);
-            params.put("photo", encodedImage);
-            String pseudo = settings.getString("pseudo", "");
-            params.put("username", pseudo);
-            APIService.INSTANCE.pushPointOfInterest(null, params);
+            PointOfInterest point = new PointOfInterest(userLoc.getLocation().getLatitude(), userLoc.getLocation().getLongitude(), null, spinner.getSelectedItem().toString(), settings.getString("pseudo", ""), null, null, null, null);
+            point.save();
+
+            Log.d("DEBUG", point.toString());
         }
     };
 

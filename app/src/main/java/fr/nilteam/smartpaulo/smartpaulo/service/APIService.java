@@ -70,6 +70,7 @@ public enum APIService {
             e.printStackTrace();
         }
 
+        Log.d("DEBUG", "Avant appel a task.execute");
         task.execute(myurl, urlParameters);
     }
 
@@ -82,39 +83,39 @@ public enum APIService {
      * Parse le résultat et envoie les points d'interets à l'activité
      */
     public void setPointsOfInterest(String result) {
-        ArrayList<PointOfInterest> pointsOfInterest = new ArrayList<PointOfInterest>();
-        try {
-            // On récupère le tableau d'objets qui nous concernent
-            JSONArray array = new JSONArray(result);
-            // Pour tous les objets on récupère les infos
-            for (int i = 0; i < array.length(); i++) {
-                // On récupère un objet JSON du tableau
-                JSONObject obj = new JSONObject(array.getString(i));
-                List<Tags> tags = new ArrayList<Tags>();
-                // On fait le lien Personne - Objet JSON
-                JSONObject zone = obj.getJSONObject("zone");
-                PointOfInterest interest = new PointOfInterest(
-                        obj.getLong("latitude"),
-                        obj.getLong("longitude"),
-                        obj.getString("photo_url"),
-                        tags,
-                        obj.getString("username"),
-                        obj.getLong("created_at"),
-                        zone.getLong("latitude1"),
-                        zone.getLong("longitude1"),
-                        zone.getLong("latitude2"),
-                        zone.getLong("longitude2")
-                );
-                Log.e("APISERVICE", "PointOfInterest created");
-                // Add interest into the result
-                pointsOfInterest.add(interest);
-
-            }
-            activity.get().setPointsOfInterest(pointsOfInterest);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        ArrayList<PointOfInterest> pointsOfInterest = new ArrayList<PointOfInterest>();
+//        try {
+//            // On récupère le tableau d'objets qui nous concernent
+//            JSONArray array = new JSONArray(result);
+//            // Pour tous les objets on récupère les infos
+//            for (int i = 0; i < array.length(); i++) {
+//                // On récupère un objet JSON du tableau
+//                JSONObject obj = new JSONObject(array.getString(i));
+//                List<Tags> tags = new ArrayList<Tags>();
+//                // On fait le lien Personne - Objet JSON
+//                JSONObject zone = obj.getJSONObject("zone");
+//                PointOfInterest interest = new PointOfInterest(
+//                        obj.getLong("latitude"),
+//                        obj.getLong("longitude"),
+//                        obj.getString("photo_url"),
+//                        tags,
+//                        obj.getString("username"),
+//                        obj.getLong("created_at"),
+//                        zone.getLong("latitude1"),
+//                        zone.getLong("longitude1"),
+//                        zone.getLong("latitude2"),
+//                        zone.getLong("longitude2")
+//                );
+//                Log.e("APISERVICE", "PointOfInterest created");
+//                // Add interest into the result
+//                pointsOfInterest.add(interest);
+//
+//            }
+//            activity.get().setPointsOfInterest(pointsOfInterest);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void checkAPIResult(String result) {
@@ -135,12 +136,18 @@ public enum APIService {
                 URL url = new URL(params[0]);
                 String result = "";
                 InputStream inputStream;
+
+                Log.d("DEBUG", "TYPE REQUEST = "+this.requestType.toString());
+
+
                 switch (this.requestType) {
                     case FETCH_POINTS_OF_INTEREST:
                         URLConnection con = url.openConnection();
                         // Get the response
                         inputStream = con.getInputStream();
                         result = InputStreamOperations.InputStreamToString(inputStream);
+                        Log.d("DEBUG", "FETCH POINT");
+
                         break;
                     case INSERT_POINTS_OF_INTEREST:
                         String urlParameters = params[1];
@@ -148,18 +155,20 @@ public enum APIService {
                         int postDataLength = postData.length;
 
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setDoOutput(true);
                         connection.setInstanceFollowRedirects(false);
                         connection.setRequestMethod("POST");
                         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                         connection.setRequestProperty("charset", "utf-8");
                         connection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
                         connection.setUseCaches(false);
+                        connection.setDoOutput(true);
+
                         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
                         wr.write(postData);
                         // Get the response
                         inputStream = connection.getInputStream();
                         result = InputStreamOperations.InputStreamToString(inputStream);
+                        Log.d("DEBUG", "PUSH POINT");
                         break;
                 }
                 return result;
