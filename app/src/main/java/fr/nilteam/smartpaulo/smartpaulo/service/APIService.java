@@ -162,7 +162,6 @@ public enum APIService {
                         connection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
                         connection.setUseCaches(false);
                         connection.setDoOutput(true);
-
                         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
                         wr.write(postData);
                         // Get the response

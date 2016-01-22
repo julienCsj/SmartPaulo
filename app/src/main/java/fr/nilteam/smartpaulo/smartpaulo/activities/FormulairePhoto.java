@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +27,7 @@ import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
 import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
+import fr.nilteam.smartpaulo.smartpaulo.utils.Base64;
 import fr.nilteam.smartpaulo.smartpaulo.utils.UserLocation;
 
 public class FormulairePhoto extends AppCompatActivity {
@@ -105,7 +104,7 @@ public class FormulairePhoto extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
-                        Log.e("Camera", e.toString());
+                        //Log.e("Camera", e.toString());
                     }
                 }
         }
@@ -113,24 +112,32 @@ public class FormulairePhoto extends AppCompatActivity {
 
     private View.OnClickListener ajouterPointInteret = new View.OnClickListener() {
         public void onClick(View arg0) {
+            double latitude = 1;
+            double longitude = 1;
             if(userLoc.getLocation() != null) {
+                latitude = userLoc.getLocation().getLatitude();
+                longitude = userLoc.getLocation().getLongitude();
+                /*
                 Context context = getApplicationContext();
                 CharSequence text = "Location ["+userLoc.getLocation().getLatitude()+", "+userLoc.getLocation().getLongitude()+"] Alt : "+userLoc.getLocation().getAltitude()+ "m - Précision : "+userLoc.getLocation().getAccuracy();
                 int duration = Toast.LENGTH_LONG;
-
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                */
             }
-//            Bitmap bm = bitmap;
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-//            byte[] byteArrayImage = baos.toByteArray();
-//            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
 
-            PointOfInterest point = new PointOfInterest(userLoc.getLocation().getLatitude(), userLoc.getLocation().getLongitude(), "http://www.impots-economie.com/images-impots-economie/2012/01/Nicolas-Sarkozy-pouvoir-d-achat.jpg", spinner.getSelectedItem().toString(), settings.getString("pseudo", ""));
-            point.save();
-
-            Log.d("DEBUG", point.toString());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            byte[] byteArrayImage = baos.toByteArray();
+            String encodedImage = Base64.encodeBytes(byteArrayImage);
+            Map<String, Object> params = new HashMap();
+            params.put("tags", spinner.getSelectedItem().toString());
+            params.put("latitude", latitude);
+            params.put("longitude", longitude);
+            params.put("photo", encodedImage);
+            String pseudo = settings.getString("pseudo", "");
+            params.put("username", settings.getString("pseudo", ""));
+            APIService.INSTANCE.pushPointOfInterest(null, params);
         }
     };
 
