@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,11 +20,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
+import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
 import fr.nilteam.smartpaulo.smartpaulo.utils.UserLocation;
 
 public class FormulairePhoto extends AppCompatActivity {
@@ -36,7 +40,8 @@ public class FormulairePhoto extends AppCompatActivity {
     private Spinner spinner;
     private UserLocation userLoc;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-
+    private Bitmap bitmap;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class FormulairePhoto extends AppCompatActivity {
         spinner.setAdapter(new ArrayAdapter<Tags>(this, android.R.layout.simple_spinner_item, Tags.values()));
 
         userLoc = new UserLocation(this);
+        settings = getSharedPreferences("SmartPaulo", 0);
 
         // prendre une photo
         takePhoto();
@@ -89,9 +95,9 @@ public class FormulairePhoto extends AppCompatActivity {
                     Uri selectedImage = imageUri;
                     getContentResolver().notifyChange(selectedImage, null);
                     ContentResolver cr = getContentResolver();
-                    Bitmap bitmap;
+
                     try {
-                        bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
+                        this.bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
                         iv.setImageBitmap(bitmap);
                         iv.setMaxHeight(200);
 
@@ -114,6 +120,20 @@ public class FormulairePhoto extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
+            Bitmap bm = bitmap;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            byte[] byteArrayImage = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+
+            Map<String, Object> params = new HashMap();
+            params.put("tags", "sometags");
+            params.put("latitude", 4.23145);
+            params.put("longitude", 41.4532);
+            params.put("photo", encodedImage);
+            String pseudo = settings.getString("pseudo", "");
+            params.put("username", pseudo);
+            APIService.INSTANCE.pushPointOfInterest(null, params);
         }
     };
 

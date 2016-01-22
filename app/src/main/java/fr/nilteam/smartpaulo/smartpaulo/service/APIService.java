@@ -6,15 +6,21 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.activities.MainActivity;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
@@ -38,9 +44,38 @@ public enum APIService {
     public void fetchPointsOfInterest(MainActivity activity) {
         String myurl = this.apiurl + "api/interest";
         this.activity = new WeakReference<MainActivity>(activity);
-        RestTask task = new RestTask();
+        RestTask task = new RestTask(REQUESTTYPE.FETCH_POINTS_OF_INTEREST);
         task.execute(myurl);
     }
+
+
+    /**
+     * Réalise l'appel pour inserer un nouveau point d'interêt.
+     */
+    public void pushPointOfInterest(MainActivity activity, Map<String, Object> params) {
+        String myurl = this.apiurl + "api/interest";
+        RestTask task = new RestTask(REQUESTTYPE.INSERT_POINTS_OF_INTEREST);
+        String urlParameters = "";
+        try {
+            this.activity = new WeakReference<MainActivity>(activity);
+            StringBuilder postData = new StringBuilder();
+            for (String key : params.keySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(key, "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(params.get(key)), "UTF-8"));
+            }
+            urlParameters = postData.toString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        task.execute(myurl, urlParameters);
+    }
+
+    public enum REQUESTTYPE {FETCH_POINTS_OF_INTEREST, INSERT_POINTS_OF_INTEREST}
+
+    ;
 
     /**
      * Callback avec les points d'interets
@@ -82,17 +117,51 @@ public enum APIService {
         }
     }
 
+    public void checkAPIResult(String result) {
+        //TODO
+    }
+
     public class RestTask extends AsyncTask<String, Void, String> {
+        private final REQUESTTYPE requestType;
+
+        public RestTask(REQUESTTYPE requestType) {
+            this.requestType = requestType;
+        }
+
         @Override
         protected String doInBackground(String... params) {
             try {
                 CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-
                 URL url = new URL(params[0]);
-                URLConnection connection = url.openConnection();
-                // Get the response
-                InputStream inputStream = connection.getInputStream();
-                String result = InputStreamOperations.InputStreamToString(inputStream);
+                String result = "";
+                InputStream inputStream;
+                switch (this.requestType) {
+                    case FETCH_POINTS_OF_INTEREST:
+                        URLConnection con = url.openConnection();
+                        // Get the response
+                        inputStream = con.getInputStream();
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+                        break;
+                    case INSERT_POINTS_OF_INTEREST:
+                        String urlParameters = params[1];
+                        byte[] postData = urlParameters.getBytes();
+                        int postDataLength = postData.length;
+
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoOutput(true);
+                        connection.setInstanceFollowRedirects(false);
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        connection.setRequestProperty("charset", "utf-8");
+                        connection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+                        connection.setUseCaches(false);
+                        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                        wr.write(postData);
+                        // Get the response
+                        inputStream = connection.getInputStream();
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+                        break;
+                }
                 return result;
             } catch (Exception e) {
                 // TODO handle this properly
@@ -103,8 +172,15 @@ public enum APIService {
 
         @Override
         protected void onPostExecute(String result) {
-            //Log.e("APISERVICE", "JSON FETCHED :[" + result + "]");
-            APIService.INSTANCE.setPointsOfInterest(result);
+            Log.e("APISERVICE", "JSON FETCHED :[" + result + "]");
+            switch (this.requestType) {
+                case FETCH_POINTS_OF_INTEREST:
+                    APIService.INSTANCE.setPointsOfInterest(result);
+                    break;
+                case INSERT_POINTS_OF_INTEREST:
+                    APIService.INSTANCE.checkAPIResult(result);
+                    break;
+            }
         }
 
     }
