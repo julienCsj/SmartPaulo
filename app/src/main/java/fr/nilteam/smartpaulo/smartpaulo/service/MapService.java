@@ -8,11 +8,14 @@ import android.support.v4.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.activities.MainActivity;
 
 /**
@@ -32,27 +35,28 @@ public class MapService {
         String recupPile = "Recyclage des piles";
         String recupPapier = "Recyclage du papier";
 
+        BitmapDescriptor bmp = BitmapDescriptorFactory.fromResource(R.drawable.recycle);
 
         // Les récups verre
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(-31.90, 115.86)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55891, 1.47303)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55999,1.47194)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55995,1.47195)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56439,1.47053)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56355,1.47579)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55509,1.46816)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56295,1.46311)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56305,1.45939)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56068,1.45738)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56376,1.45531)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56850, 1.46620)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56735, 1.46726)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.57124, 1.46269)).draggable(false).title(recupVerre));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56731, 1.46477)).draggable(false).title(recupVerre));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(-31.90, 115.86)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55891, 1.47303)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55999,1.47194)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55995,1.47195)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56439,1.47053)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56355,1.47579)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55509,1.46816)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56295,1.46311)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56305,1.45939)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56068,1.45738)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56376,1.45531)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56850, 1.46620)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56735, 1.46726)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.57124, 1.46269)).draggable(false).title(recupVerre).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56731, 1.46477)).draggable(false).title(recupVerre).icon(bmp));
 
         // Textile
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55505, 1.46811)).draggable(false).title(recupTextile));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56305, 1.45935)).draggable(false).title(recupTextile));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.55505, 1.46811)).draggable(false).title(recupTextile).icon(bmp));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.56305, 1.45935)).draggable(false).title(recupTextile).icon(bmp));
 
 
         // Carton
