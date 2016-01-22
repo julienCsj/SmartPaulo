@@ -6,15 +6,27 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Paramètres" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_send"
+            android:title="A propos" />
     </group>
 
-    <item android:title="Communicate">
+
+    <item android:title="Légende">
         <menu>
             <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_send"
-                android:title="A propos" />
+                android:id="@+id/legende1"
+                android:icon="@color/wallet_link_text_light"
+                android:title="Légende 1" />
+            <item
+                android:id="@+id/legende2"
+                android:icon="@color/yellow"
+                android:title="Légende 2" />
+            <item
+                android:id="@+id/legende3"
+                android:icon="@color/colorPrimaryDark"
+                android:title="Légende 3" />
         </menu>
     </item>
-
 </menu>
