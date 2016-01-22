@@ -10,7 +10,7 @@
     tools:context="fr.nilteam.smartpaulo.smartpaulo.activities.InterestPoint">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -19,8 +19,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Proposé par"
+            android:id="@+id/textUser"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Localisation"
-            android:id="@+id/location"
+            android:id="@+id/textLocation"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tags"
+            android:id="@+id/textTag"
             android:layout_gravity="center_horizontal"/>
 
         <ImageView

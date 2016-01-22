@@ -6,7 +6,6 @@ import com.activeandroid.annotation.Table;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

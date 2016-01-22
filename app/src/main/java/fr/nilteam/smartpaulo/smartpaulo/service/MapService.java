@@ -6,17 +6,24 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 
+import com.activeandroid.Model;
+import com.activeandroid.query.Select;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.activities.MainActivity;
+import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 
 /**
  * Created by Elliot on 22/01/2016.
@@ -188,5 +195,18 @@ public class MapService {
         // Zoom de 2.0 à 21.0. Le centrage se fait sur le centre de la fac
         LatLng pos = new LatLng(43.563637f, 1.470986f);
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15.0f));
+    }
+
+    public void populatePointsOfInterest() {
+        Object[] pointsOfInterest = new Select().from(PointOfInterest.class).execute().toArray();
+        Marker m;
+        PointOfInterest point;
+        for (Object p : pointsOfInterest) {
+            point = (PointOfInterest) p;
+            m = googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(point.getLatitude(), point.getLongitude()))
+                    .title(point.getUsername()));
+            PointOfInterest.mapMarkerPoi.put(m.getId(), point);
+        }
     }
 }
