@@ -1,4 +1,4 @@
-package fr.nilteam.smartpaulo.smartpaulo;
+package fr.nilteam.smartpaulo.smartpaulo.model;
 
 import java.util.List;
 

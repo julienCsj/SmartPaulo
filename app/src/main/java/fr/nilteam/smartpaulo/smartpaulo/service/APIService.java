@@ -1,4 +1,4 @@
-package fr.nilteam.smartpaulo.smartpaulo;
+package fr.nilteam.smartpaulo.smartpaulo.service;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,6 +15,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.nilteam.smartpaulo.smartpaulo.activities.MainActivity;
+import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
+import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
+import fr.nilteam.smartpaulo.smartpaulo.utils.InputStreamOperations;
 
 /**
  * Created by Leo on 21/01/16.

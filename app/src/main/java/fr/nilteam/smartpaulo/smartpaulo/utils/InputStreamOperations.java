@@ -1,4 +1,4 @@
-package fr.nilteam.smartpaulo.smartpaulo;
+package fr.nilteam.smartpaulo.smartpaulo.utils;
 
 /**
  * Created by Leo on 21/01/16.

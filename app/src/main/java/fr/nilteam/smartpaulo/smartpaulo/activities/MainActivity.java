@@ -1,4 +1,4 @@
-package fr.nilteam.smartpaulo.smartpaulo;
+package fr.nilteam.smartpaulo.smartpaulo.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -23,6 +23,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
+
+import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
+import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
+import fr.nilteam.smartpaulo.smartpaulo.R;
+import fr.nilteam.smartpaulo.smartpaulo.utils.UserLocation;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -102,6 +107,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
+        if (id == R.id.nav_about) {
+            Intent intent = new Intent(getApplicationContext(), About.class);
+            startActivity(intent);
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -116,13 +126,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setupGoogleMap() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // Vérification des droits
             return;
         }
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);

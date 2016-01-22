@@ -1,4 +1,4 @@
-package fr.nilteam.smartpaulo.smartpaulo;
+package fr.nilteam.smartpaulo.smartpaulo.utils;
 
 import android.Manifest;
 import android.app.Activity;
