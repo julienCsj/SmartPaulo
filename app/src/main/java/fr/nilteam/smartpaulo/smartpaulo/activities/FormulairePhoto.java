@@ -127,7 +127,7 @@ public class FormulairePhoto extends AppCompatActivity {
 //            byte[] byteArrayImage = baos.toByteArray();
 //            String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
 
-            PointOfInterest point = new PointOfInterest(userLoc.getLocation().getLatitude(), userLoc.getLocation().getLongitude(), null, spinner.getSelectedItem().toString(), settings.getString("pseudo", ""), null, null, null, null);
+            PointOfInterest point = new PointOfInterest(userLoc.getLocation().getLatitude(), userLoc.getLocation().getLongitude(), "http://www.impots-economie.com/images-impots-economie/2012/01/Nicolas-Sarkozy-pouvoir-d-achat.jpg", spinner.getSelectedItem().toString(), settings.getString("pseudo", ""));
             point.save();
 
             Log.d("DEBUG", point.toString());

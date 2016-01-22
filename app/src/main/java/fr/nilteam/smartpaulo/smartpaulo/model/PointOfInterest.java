@@ -3,14 +3,19 @@ package fr.nilteam.smartpaulo.smartpaulo.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.android.gms.maps.model.Marker;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Leo on 21/01/16.
  */
 @Table(name = "points")
 public class PointOfInterest extends Model {
+    public static Map<String, PointOfInterest> mapMarkerPoi = new HashMap<String, PointOfInterest>();
+
     @Column(name = "latitude")
     private Double latitude;
     @Column(name = "longitude")
@@ -32,19 +37,14 @@ public class PointOfInterest extends Model {
     private Double zone_longitude2;
 
     public PointOfInterest() {
-
     }
 
-    public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username, Double zone_latitude1, Double zone_longitude1, Double zone_latitude2, Double zone_longitude2) {
+    public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.photo_url = photo_url;
         this.tag = tag;
         this.username = username;
-        this.zone_latitude1 = zone_latitude1;
-        this.zone_longitude1 = zone_longitude1;
-        this.zone_latitude2 = zone_latitude2;
-        this.zone_longitude2 = zone_longitude2;
     }
 
     public Double getLatitude() {
