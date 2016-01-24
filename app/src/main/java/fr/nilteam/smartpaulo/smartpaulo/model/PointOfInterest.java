@@ -14,10 +14,6 @@ import java.util.Map;
 @Table(name = "points")
 public class PointOfInterest extends Model {
     public static Map<String, PointOfInterest> mapMarkerPoi = new HashMap<String, PointOfInterest>();
-
-    @Column(name = "id")
-    private int id;
-
     @Column(name = "latitude")
     private Double latitude;
     @Column(name = "longitude")
@@ -42,14 +38,6 @@ public class PointOfInterest extends Model {
     }
 
     public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.photo_url = photo_url;
-        this.tag = tag;
-        this.username = username;
-    }
-    public PointOfInterest(int id, Double latitude, Double longitude, String photo_url, String tag, String username) {
-        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.photo_url = photo_url;

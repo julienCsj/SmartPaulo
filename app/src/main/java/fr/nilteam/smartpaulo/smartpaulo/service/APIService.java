@@ -107,7 +107,6 @@ public enum APIService {
                 }
                 // On fait le lien Personne - Objet JSON
                 PointOfInterest interest = new PointOfInterest(
-                        obj.getInt("id"),
                         obj.getDouble("lat"),
                         obj.getDouble("lng"),
                         obj.getString("url"),
