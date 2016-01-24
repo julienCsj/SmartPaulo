@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -85,6 +86,25 @@ public class FormulairePhoto extends AppCompatActivity {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
+    public void receiveServerResult(int resultCode) {
+        Log.i("FormulairePhoto", "Result transmetted :" + Integer.toString(resultCode));
+        switch (resultCode) {
+            case -1:
+                //error
+                Toast.makeText(this, "Error while reading server answer", Toast.LENGTH_SHORT).show();
+                break;
+            case 0:
+                FormulairePhoto.this.finish();
+                //ok
+                Toast.makeText(this, "Merci ! Votre point d'interêt a bien été reçu", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "Server error", Toast.LENGTH_SHORT).show();
+                //not ok
+                break;
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -106,17 +126,22 @@ public class FormulairePhoto extends AppCompatActivity {
                         Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
                         //Log.e("Camera", e.toString());
                     }
+                }else if (resultCode == Activity.RESULT_CANCELED) {
+                    // User cancelled the image capture
+                    Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
+                    FormulairePhoto.this.finish();
+                } else {
+                    // Image capture failed, advise user
+                    Toast.makeText(this, "An error occured", Toast.LENGTH_SHORT).show();
                 }
         }
     }
 
     private View.OnClickListener ajouterPointInteret = new View.OnClickListener() {
         public void onClick(View arg0) {
-            double latitude = 1;
-            double longitude = 1;
             if(userLoc.getLocation() != null) {
-                latitude = userLoc.getLocation().getLatitude();
-                longitude = userLoc.getLocation().getLongitude();
+                double latitude = userLoc.getLocation().getLatitude();
+                double longitude = userLoc.getLocation().getLongitude();
                 /*
                 Context context = getApplicationContext();
                 CharSequence text = "Location ["+userLoc.getLocation().getLatitude()+", "+userLoc.getLocation().getLongitude()+"] Alt : "+userLoc.getLocation().getAltitude()+ "m - Précision : "+userLoc.getLocation().getAccuracy();
@@ -124,20 +149,18 @@ public class FormulairePhoto extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 */
+                Map<String, Object> params = new HashMap();
+                params.put("tags", spinner.getSelectedItem().toString());
+                params.put("latitude", latitude);
+                params.put("longitude", longitude);
+                params.put("photo", bitmap);
+                params.put("username", settings.getString("pseudo", ""));
+                Toast.makeText(FormulairePhoto.this, "Envoi en cours...", Toast.LENGTH_LONG).show();
+                APIService.INSTANCE.pushPointOfInterest(FormulairePhoto.this, params);
+            } else {
+                Toast.makeText(getApplicationContext(), "Please active your GPS and retry", Toast.LENGTH_LONG).show();
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] byteArrayImage = baos.toByteArray();
-            String encodedImage = Base64.encodeBytes(byteArrayImage);
-            Map<String, Object> params = new HashMap();
-            params.put("tags", spinner.getSelectedItem().toString());
-            params.put("latitude", latitude);
-            params.put("longitude", longitude);
-            params.put("photo", encodedImage);
-            String pseudo = settings.getString("pseudo", "");
-            params.put("username", settings.getString("pseudo", ""));
-            APIService.INSTANCE.pushPointOfInterest(null, params);
         }
     };
 

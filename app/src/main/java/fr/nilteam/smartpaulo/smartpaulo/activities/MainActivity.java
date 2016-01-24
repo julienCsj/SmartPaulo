@@ -73,11 +73,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // Show custom icons http://stackoverflow.com/questions/33035010/how-can-i-show-androidicon-in-android-menu-android-studio
+        navigationView.setItemIconTintList(null);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
- //       APIService.INSTANCE.fetchPointsOfInterest(this);
+        APIService.INSTANCE.fetchPointsOfInterest(this);
     }
 
     @Override
@@ -151,5 +153,9 @@ public class MainActivity extends AppCompatActivity
         } else {
             return false;
         }
+    }
+
+    public void redrawGoogleMap() {
+        mService.redraw();
     }
 }
