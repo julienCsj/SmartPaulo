@@ -6,16 +6,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
+import fr.nilteam.smartpaulo.smartpaulo.utils.Base64;
 
 public class InterestPoint extends AppCompatActivity {
 
@@ -41,11 +45,11 @@ public class InterestPoint extends AppCompatActivity {
         ImageView photo = (ImageView) findViewById(R.id.photo);
         URL newurl = null;
         try {
-            newurl = new URL(poi.getPhoto_url());
-            Bitmap image = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+            newurl = new URL("http://h16free.com/wp-content/uploads/2011/03/sarko.jpg"); /*new URL(poi.getPhoto_url());*/
+            Bitmap image = BitmapFactory.decodeStream((InputStream)newurl.getContent());
             photo.setImageBitmap(image);
         } catch (Exception e) {
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Impossible d'afficher la photo. Veuillez vérifier votre connexion internet.", Toast.LENGTH_LONG).show();
         }
 
     }

@@ -158,7 +158,7 @@ public class FormulairePhoto extends AppCompatActivity {
                 Toast.makeText(FormulairePhoto.this, "Envoi en cours...", Toast.LENGTH_LONG).show();
                 APIService.INSTANCE.pushPointOfInterest(FormulairePhoto.this, params);
             } else {
-                Toast.makeText(getApplicationContext(), "Please active your GPS and retry", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Impossible d'ajouter le point d'intêret. Veuillez vérifier que le GPS est activé.", Toast.LENGTH_LONG).show();
             }
 
         }

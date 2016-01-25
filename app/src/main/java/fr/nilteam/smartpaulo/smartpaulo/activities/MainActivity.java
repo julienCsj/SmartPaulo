@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity
         mService.initMapPosition(this);
         mService.populateMap();
         mService.populatePointsOfInterest();
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
     @Override
