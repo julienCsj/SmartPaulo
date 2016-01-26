@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.activeandroid.query.Delete;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +82,11 @@ public enum APIService {
         try {
             // On récupère le tableau d'objets qui nous concernent
             JSONArray array = new JSONArray(result);
+            if (array.length() > 0) {
+                // Supprime toutes les données dans la base de données SQLite
+                new Delete().from(PointOfInterest.class).execute();
+                Log.e("APISERVICE", "All PointOfInterest stored on SQLite deleted");
+            }
             // Pour tous les objets on récupère les infos
             for (int i = 0; i < array.length(); i++) {
                 // On récupère un objet JSON du tableau
