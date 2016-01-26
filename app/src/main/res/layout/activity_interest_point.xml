@@ -9,40 +9,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fr.nilteam.smartpaulo.smartpaulo.activities.InterestPoint">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Proposé par"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/textUser"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/photo"
+        android:layout_below="@+id/textUser"
+        android:layout_above="@+id/textTag"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tags"
+        android:id="@+id/textTag"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_above="@+id/textLocation"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Localisation"
+        android:id="@+id/textLocation"
+        android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Proposé par"
-            android:id="@+id/textUser"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Localisation"
-            android:id="@+id/textLocation"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tags"
-            android:id="@+id/textTag"
-            android:layout_gravity="center_horizontal"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/photo"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

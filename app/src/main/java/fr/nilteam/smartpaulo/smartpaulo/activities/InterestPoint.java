@@ -38,7 +38,13 @@ public class InterestPoint extends AppCompatActivity {
         textLocation.setText("Localisation : "+poi.getLatitude()+", "+poi.getLongitude());
 
         TextView textUser = (TextView) findViewById(R.id.textUser);
-        textUser.setText("Proposé par "+poi.getUsername());
+        String username;
+        if (poi.getUsername().equals("")) {
+            username = "Anonyme";
+        } else {
+            username = poi.getUsername();
+        }
+        textUser.setText("Proposé par "+username);
 
         TextView textTags = (TextView) findViewById(R.id.textTag);
         textTags.setText("Tags : "+poi.getTags());
