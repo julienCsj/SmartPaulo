@@ -2,7 +2,6 @@ package fr.nilteam.smartpaulo.smartpaulo.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -13,22 +12,20 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
-import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
 import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
-import fr.nilteam.smartpaulo.smartpaulo.utils.Base64;
 import fr.nilteam.smartpaulo.smartpaulo.utils.UserLocation;
 
 public class FormulairePhoto extends AppCompatActivity {
@@ -47,6 +44,8 @@ public class FormulairePhoto extends AppCompatActivity {
     private Double x2 = -1.0;
     private Double y1 = -1.0;
     private Double y2 = -1.0;
+
+    private String tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,15 @@ public class FormulairePhoto extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(new ArrayAdapter<Tags>(this, android.R.layout.simple_spinner_item, Tags.values()));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                tag = spinner.getSelectedItem().toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
         userLoc = new UserLocation(this);
         settings = getSharedPreferences("SmartPaulo", 0);
 
@@ -156,7 +163,7 @@ public class FormulairePhoto extends AppCompatActivity {
                 toast.show();
                 */
                 Map<String, Object> params = new HashMap();
-                params.put("tags", spinner.getSelectedItem().toString());
+                params.put("tag", tag);
                 params.put("latitude", latitude);
                 params.put("longitude", longitude);
                 params.put("photo", bitmap);

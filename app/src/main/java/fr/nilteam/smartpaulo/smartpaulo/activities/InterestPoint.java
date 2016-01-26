@@ -2,25 +2,14 @@ package fr.nilteam.smartpaulo.smartpaulo.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.webkit.URLUtil;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
-import fr.nilteam.smartpaulo.smartpaulo.utils.Base64;
 
 public class InterestPoint extends AppCompatActivity {
 
@@ -47,7 +36,7 @@ public class InterestPoint extends AppCompatActivity {
         textUser.setText("Proposé par "+username);
 
         TextView textTags = (TextView) findViewById(R.id.textTag);
-        textTags.setText("Tags : "+poi.getTags());
+        textTags.setText("Tag : "+poi.getTags());
 
         APIService.INSTANCE.fetchPhoto(this, poi);
     }

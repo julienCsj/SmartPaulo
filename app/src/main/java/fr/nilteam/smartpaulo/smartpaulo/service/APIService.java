@@ -85,25 +85,19 @@ public enum APIService {
                 // On récupère un objet JSON du tableau
                 JSONObject obj = new JSONObject(array.getString(i));
                 Tags tags = Tags.INSALUBRITE;
-                if (obj.has("tags")) {
-                    //TODO
-                    JSONArray jTags = obj.getJSONArray("tags");
-                    for (int j = 0; j < jTags.length(); j++) {
-                        switch (jTags.getString(j)) {
-                            case "Insalubrité":
-                                tags = Tags.INSALUBRITE;
-                                break;
-                            case "Accident":
-                                tags = Tags.ACCIDENT;
-                                break;
-                            case "Recyclage":
-                                tags = Tags.RECYCLAGE;
-                                break;
-                            case "Vandalisme":
-                                tags = Tags.VANDALISME;
-                                break;
-                        }
-                    }
+                switch (obj.getString("tag")) {
+                    case "Insalubrité":
+                        tags = Tags.INSALUBRITE;
+                        break;
+                    case "Accident":
+                        tags = Tags.ACCIDENT;
+                        break;
+                    case "Recyclage":
+                        tags = Tags.RECYCLAGE;
+                        break;
+                    case "Vandalisme":
+                        tags = Tags.VANDALISME;
+                        break;
                 }
                 // On fait le lien Personne - Objet JSON
                 PointOfInterest interest = new PointOfInterest(

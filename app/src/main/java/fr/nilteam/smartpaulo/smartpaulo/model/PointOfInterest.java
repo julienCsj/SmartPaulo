@@ -1,11 +1,8 @@
 package fr.nilteam.smartpaulo.smartpaulo.model;
 
-import android.graphics.Point;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
 import java.util.Map;
