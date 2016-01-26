@@ -43,6 +43,10 @@ public class FormulairePhoto extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Bitmap bitmap;
     private SharedPreferences settings;
+    private Double x1 = -1.0;
+    private Double x2 = -1.0;
+    private Double y1 = -1.0;
+    private Double y2 = -1.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +162,10 @@ public class FormulairePhoto extends AppCompatActivity {
                 params.put("longitude", longitude);
                 params.put("photo", bitmap);
                 params.put("username", settings.getString("pseudo", ""));
+                params.put("x1", x1);
+                params.put("x2", x2);
+                params.put("y1", y1);
+                params.put("y2", y2);
                 Toast.makeText(FormulairePhoto.this, "Envoi en cours...", Toast.LENGTH_LONG).show();
                 APIService.INSTANCE.pushPointOfInterest(FormulairePhoto.this, params);
             } else {
