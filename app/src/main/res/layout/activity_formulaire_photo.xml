@@ -19,16 +19,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Photo : "
-        android:id="@+id/textView2"
-        android:layout_below="@+id/titlePhotoForm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,17 +26,17 @@
         android:minWidth="200dp"
         android:minHeight="200dp"
         android:src="#ffffff"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/titlePhotoForm"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/textView3" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reprendre une photo"
+        android:text="Reprendre"
         android:id="@+id/buttonReprendrePhoto"
-        android:layout_below="@+id/imageView2"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -55,7 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Tag : "
         android:id="@+id/textView3"
-        android:layout_below="@+id/buttonReprendrePhoto"
+        android:layout_above="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -63,8 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/buttonAnnuler"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -83,7 +74,7 @@
         android:layout_height="wrap_content"
         android:text="Annuler"
         android:id="@+id/buttonAnnuler"
-        android:background="@color/colorPrimaryLight"
+        android:background="@color/red"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
