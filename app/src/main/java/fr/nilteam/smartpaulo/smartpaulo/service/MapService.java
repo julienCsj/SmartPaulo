@@ -201,7 +201,7 @@ public class MapService {
         Object[] pointsOfInterest = new Select().from(PointOfInterest.class).execute().toArray();
         Marker m;
         PointOfInterest point;
-        BitmapDescriptor interesetImg = BitmapDescriptorFactory.fromResource(R.drawable.file_with_questionmark);
+        BitmapDescriptor interesetImg = BitmapDescriptorFactory.fromResource(R.drawable.interest);
         for (Object p : pointsOfInterest) {
             point = (PointOfInterest) p;
             m = googleMap.addMarker(new MarkerOptions()
