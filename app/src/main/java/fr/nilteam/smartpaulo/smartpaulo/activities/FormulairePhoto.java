@@ -123,7 +123,6 @@ public class FormulairePhoto extends AppCompatActivity {
                     try {
                         this.bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
                         iv.setImageBitmap(bitmap);
-                        iv.setMaxHeight(200);
 
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -1,6 +1,5 @@
 package fr.nilteam.smartpaulo.smartpaulo.service;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -24,9 +23,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.activities.FormulairePhoto;
@@ -168,7 +164,7 @@ public enum APIService {
 
     public enum REQUESTTYPE {FETCH_POINTS_OF_INTEREST, INSERT_POINTS_OF_INTEREST, FETCH_PHOTO};
 
-    public class RestTask extends AsyncTask<Object, Void, String> {
+    public class RestTask extends AsyncTask<Object, Void, Object> {
         private final REQUESTTYPE requestType;
 
         public RestTask(REQUESTTYPE requestType) {
@@ -176,11 +172,11 @@ public enum APIService {
         }
 
         @Override
-        protected String doInBackground(Object... params) {
+        protected Object doInBackground(Object... params) {
+            String result = "";
             try {
                 CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
                 URL url = new URL((String)params[0]);
-                String result = "";
                 InputStream inputStream;
 
                 Log.d("DEBUG", "TYPE REQUEST = "+this.requestType.toString());
@@ -199,11 +195,12 @@ public enum APIService {
                     case FETCH_PHOTO:
                         //con = url.openConnection();
                         // Get the response
-                        inputStream = (InputStream) url.getContent();
-                        result = InputStreamOperations.InputStreamToString(inputStream);
                         Log.d("DEBUG", "FETCH PHOTO");
+                        inputStream = (InputStream) url.getContent();
+                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                        bmOptions.inSampleSize = 1;
 
-                        break;
+                        return BitmapFactory.decodeStream(inputStream, null, bmOptions);
                     case INSERT_POINTS_OF_INTEREST:
                         Map<String, Object> postParams = ((Map) params[1]);
 
@@ -260,18 +257,17 @@ public enum APIService {
             }
         }
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Object result) {
             Log.e("APISERVICE", "JSON FETCHED :[" + result + "]");
             switch (this.requestType) {
                 case FETCH_POINTS_OF_INTEREST:
-                    APIService.INSTANCE.setPointsOfInterest(result);
+                    APIService.INSTANCE.setPointsOfInterest((String)result);
                     break;
                 case FETCH_PHOTO:
-                    Bitmap photo = BitmapFactory.decodeByteArray(result.getBytes(), 0, result.getBytes().length);
-                    APIService.INSTANCE.setPhoto(photo);
+                    APIService.INSTANCE.setPhoto((Bitmap)result);
                     break;
                 case INSERT_POINTS_OF_INTEREST:
-                    APIService.INSTANCE.checkAPIResult(result);
+                    APIService.INSTANCE.checkAPIResult((String)result);
                     break;
             }
         }
