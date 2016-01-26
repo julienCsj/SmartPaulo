@@ -1,5 +1,7 @@
 package fr.nilteam.smartpaulo.smartpaulo.model;
 
+import android.graphics.Point;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -13,7 +15,9 @@ import java.util.Map;
  */
 @Table(name = "points")
 public class PointOfInterest extends Model {
+
     public static Map<String, PointOfInterest> mapMarkerPoi = new HashMap<String, PointOfInterest>();
+
     @Column(name = "latitude")
     private Double latitude;
     @Column(name = "longitude")
@@ -25,24 +29,28 @@ public class PointOfInterest extends Model {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "zone_latitude1")
-    private Double zone_latitude1;
-    @Column(name = "zone_longitude1")
-    private Double zone_longitude1;
-    @Column(name = "zone_latitude2")
-    private Double zone_latitude2;
-    @Column(name = "zone_longitude2")
-    private Double zone_longitude2;
+    @Column(name = "x1")
+    private Double x1;
+    @Column(name = "y1")
+    private Double y1;
+    @Column(name = "x2")
+    private Double x2;
+    @Column(name = "y2")
+    private Double y2;
 
     public PointOfInterest() {
     }
 
-    public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username) {
+    public PointOfInterest(Double latitude, Double longitude, String photo_url, String tag, String username, Double x1, Double y1, Double x2, Double y2) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.photo_url = photo_url;
         this.tag = tag;
         this.username = username;
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
     }
 
     public Double getLatitude() {
@@ -57,7 +65,24 @@ public class PointOfInterest extends Model {
         return photo_url;
     }
 
+    public Double getX1() {
+        return x1;
+    }
+
+    public Double getY1() {
+        return y1;
+    }
+
+    public Double getX2() {
+        return x2;
+    }
+
+    public Double getY2() {
+        return y2;
+    }
+
     public String getTags() {
+
         return tag;
     }
 
@@ -65,21 +90,6 @@ public class PointOfInterest extends Model {
         return username;
     }
 
-    public Double getZone_latitude1() {
-        return zone_latitude1;
-    }
-
-    public Double getZone_longitude1() {
-        return zone_longitude1;
-    }
-
-    public Double getZone_latitude2() {
-        return zone_latitude2;
-    }
-
-    public Double getZone_longitude2() {
-        return zone_longitude2;
-    }
 
     @Override
     public String toString() {
@@ -89,10 +99,10 @@ public class PointOfInterest extends Model {
                 ", photo_url='" + photo_url + '\'' +
                 ", tag='" + tag + '\'' +
                 ", username='" + username + '\'' +
-                ", zone_latitude1=" + zone_latitude1 +
-                ", zone_longitude1=" + zone_longitude1 +
-                ", zone_latitude2=" + zone_latitude2 +
-                ", zone_longitude2=" + zone_longitude2 +
+                ", x1=" + x1 +
+                ", y1=" + y1 +
+                ", x2=" + x2 +
+                ", y2=" + y2 +
                 '}';
     }
 }

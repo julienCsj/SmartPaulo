@@ -19,6 +19,7 @@ import java.net.URL;
 
 import fr.nilteam.smartpaulo.smartpaulo.R;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
+import fr.nilteam.smartpaulo.smartpaulo.service.APIService;
 import fr.nilteam.smartpaulo.smartpaulo.utils.Base64;
 
 public class InterestPoint extends AppCompatActivity {
@@ -42,17 +43,12 @@ public class InterestPoint extends AppCompatActivity {
         TextView textTags = (TextView) findViewById(R.id.textTag);
         textTags.setText("Tags : "+poi.getTags());
 
-        ImageView photo = (ImageView) findViewById(R.id.photo);
-        URL newurl = null;
-        try {
-            newurl = new URL(poi.getPhoto_url());
-            Bitmap image = BitmapFactory.decodeStream((InputStream)newurl.getContent());
-            photo.setImageBitmap(image);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Impossible d'afficher la photo. Veuillez vérifier votre connexion internet.", Toast.LENGTH_LONG).show();
-        }
-
+        APIService.INSTANCE.fetchPhoto(this, poi);
     }
 
 
+    public void outputPhoto(Bitmap bitmapPhoto) {
+        ImageView photo = (ImageView) findViewById(R.id.photo);
+        photo.setImageBitmap(bitmapPhoto);
+    }
 }

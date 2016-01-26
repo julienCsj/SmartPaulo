@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.nilteam.smartpaulo.smartpaulo.activities.FormulairePhoto;
+import fr.nilteam.smartpaulo.smartpaulo.activities.InterestPoint;
 import fr.nilteam.smartpaulo.smartpaulo.activities.MainActivity;
 import fr.nilteam.smartpaulo.smartpaulo.model.PointOfInterest;
 import fr.nilteam.smartpaulo.smartpaulo.model.Tags;
@@ -47,6 +48,7 @@ public enum APIService {
     //http://stackoverflow.com/questions/9723106/get-activity-instance
     private static WeakReference<MainActivity> activityMain;
     private static WeakReference<FormulairePhoto> activityFormulairePhoto;
+    private static WeakReference<InterestPoint> activityInterestPoint;
 
     /**
      * Réalise l'appel pour récuperer la liste de points d'interêt.
@@ -58,7 +60,6 @@ public enum APIService {
         task.execute(myurl);
     }
 
-
     /**
      * Réalise l'appel pour inserer un nouveau point d'interêt.
      */
@@ -69,10 +70,6 @@ public enum APIService {
         Log.d("DEBUG", "Avant appel a task.execute");
         task.execute(myurl, params);
     }
-
-    public enum REQUESTTYPE {FETCH_POINTS_OF_INTEREST, INSERT_POINTS_OF_INTEREST}
-
-    ;
 
     /**
      * Callback avec les points d'interets
@@ -118,7 +115,11 @@ public enum APIService {
                         obj.getDouble("lng"),
                         obj.getString("url"),
                         tags.toString(),
-                        obj.getString("pseudo")
+                        obj.getString("pseudo"),
+                        obj.getDouble("x1"),
+                        obj.getDouble("y1"),
+                        obj.getDouble("x2"),
+                        obj.getDouble("y2")
                 );
                 interest.save();
                 Log.e("APISERVICE", "PointOfInterest created");
@@ -130,6 +131,21 @@ public enum APIService {
         }
 
         this.activityMain.get().redrawGoogleMap();
+    }
+
+    /**
+     * Réalise l'appel pour récuperer la liste de points d'interêt.
+     */
+    public void fetchPhoto(InterestPoint activity, PointOfInterest poi) {
+        String myurl = poi.getPhoto_url();
+        Bitmap photo = null;
+        this.activityInterestPoint = new WeakReference<InterestPoint>(activity);
+        RestTask task = new RestTask(REQUESTTYPE.FETCH_PHOTO);
+        task.execute(myurl);
+    }
+
+    private void setPhoto(Bitmap photo) {
+        activityInterestPoint.get().outputPhoto(photo);
     }
 
     public void checkAPIResult(String result) {
@@ -150,6 +166,8 @@ public enum APIService {
         this.activityFormulairePhoto.get().receiveServerResult(resultCode);
     }
 
+    public enum REQUESTTYPE {FETCH_POINTS_OF_INTEREST, INSERT_POINTS_OF_INTEREST, FETCH_PHOTO};
+
     public class RestTask extends AsyncTask<Object, Void, String> {
         private final REQUESTTYPE requestType;
 
@@ -167,14 +185,23 @@ public enum APIService {
 
                 Log.d("DEBUG", "TYPE REQUEST = "+this.requestType.toString());
 
+                URLConnection con;
 
                 switch (this.requestType) {
                     case FETCH_POINTS_OF_INTEREST:
-                        URLConnection con = url.openConnection();
+                        con = url.openConnection();
                         // Get the response
                         inputStream = con.getInputStream();
                         result = InputStreamOperations.InputStreamToString(inputStream);
                         Log.d("DEBUG", "FETCH POINT");
+
+                        break;
+                    case FETCH_PHOTO:
+                        //con = url.openConnection();
+                        // Get the response
+                        inputStream = (InputStream) url.getContent();
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+                        Log.d("DEBUG", "FETCH PHOTO");
 
                         break;
                     case INSERT_POINTS_OF_INTEREST:
@@ -239,6 +266,10 @@ public enum APIService {
                 case FETCH_POINTS_OF_INTEREST:
                     APIService.INSTANCE.setPointsOfInterest(result);
                     break;
+                case FETCH_PHOTO:
+                    Bitmap photo = BitmapFactory.decodeByteArray(result.getBytes(), 0, result.getBytes().length);
+                    APIService.INSTANCE.setPhoto(photo);
+                    break;
                 case INSERT_POINTS_OF_INTEREST:
                     APIService.INSTANCE.checkAPIResult(result);
                     break;
@@ -246,5 +277,4 @@ public enum APIService {
         }
 
     }
-
 }
