@@ -140,6 +140,9 @@ public class FormulairePhoto extends AppCompatActivity {
     private View.OnClickListener ajouterPointInteret = new View.OnClickListener() {
         public void onClick(View arg0) {
             if(userLoc.getLocation() != null) {
+                arg0.setEnabled(false);
+                arg0.setClickable(false);
+
                 double latitude = userLoc.getLocation().getLatitude();
                 double longitude = userLoc.getLocation().getLongitude();
                 /*

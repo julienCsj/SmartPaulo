@@ -45,6 +45,8 @@
         android:text="Sauvegarder"
         android:id="@+id/settingsSauvegarderButton"
         android:layout_gravity="bottom"
+        android:background="@color/red"
+        android:textColor="@color/white"
         android:layout_weight="4.03"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

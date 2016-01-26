@@ -45,7 +45,7 @@ public class InterestPoint extends AppCompatActivity {
         ImageView photo = (ImageView) findViewById(R.id.photo);
         URL newurl = null;
         try {
-            newurl = new URL("http://h16free.com/wp-content/uploads/2011/03/sarko.jpg"); /*new URL(poi.getPhoto_url());*/
+            newurl = new URL(poi.getPhoto_url());
             Bitmap image = BitmapFactory.decodeStream((InputStream)newurl.getContent());
             photo.setImageBitmap(image);
         } catch (Exception e) {
