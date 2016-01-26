@@ -167,6 +167,10 @@ public class FormulairePhoto extends AppCompatActivity {
                 params.put("y2", y2);
                 Toast.makeText(FormulairePhoto.this, "Envoi en cours...", Toast.LENGTH_LONG).show();
                 APIService.INSTANCE.pushPointOfInterest(FormulairePhoto.this, params);
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                finish();
+                startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), "Impossible d'ajouter le point d'intêret. Veuillez vérifier que le GPS est activé.", Toast.LENGTH_LONG).show();
             }
@@ -185,4 +189,12 @@ public class FormulairePhoto extends AppCompatActivity {
             takePhoto();
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        finish();
+        startActivity(intent);
+    }
 }
