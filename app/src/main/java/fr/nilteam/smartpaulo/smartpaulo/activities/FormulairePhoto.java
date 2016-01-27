@@ -5,12 +5,19 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,6 +78,7 @@ public class FormulairePhoto extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 tag = spinner.getSelectedItem().toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -78,6 +86,64 @@ public class FormulairePhoto extends AppCompatActivity {
         });
         userLoc = new UserLocation(this);
         settings = getSharedPreferences("SmartPaulo", 0);
+
+
+        iv.setOnTouchListener(new View.OnTouchListener() {
+
+            private Float xInit;
+            private Float yInit;
+
+            private Float xFinal;
+            private Float yFinal;
+
+            private Float xCourant;
+            private Float yCourant;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    xInit = motionEvent.getX();
+                    yInit = motionEvent.getY();
+                    Toast.makeText(getApplicationContext(), "INIT", Toast.LENGTH_SHORT).show();
+
+                } else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    xFinal = motionEvent.getX();
+                    yFinal = motionEvent.getY();
+                    Toast.makeText(getApplicationContext(), "LAST", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    xCourant = motionEvent.getX();
+                    yCourant = motionEvent.getY();
+                    Toast.makeText(getApplicationContext(), "EN COURS", Toast.LENGTH_SHORT).show();
+
+                }
+
+                ImageView imageView = (ImageView) view;
+
+                imageView.buildDrawingCache();
+                Bitmap bmap = imageView.getDrawingCache();
+
+                Canvas canvas = new Canvas(bmap);
+
+                Paint p = new Paint();
+                p.setColor(Color.RED);
+                p.setAlpha(45);
+
+                Rect rectangle = new Rect(0,0,imageView.getBottom(),imageView.getRight());
+                canvas.drawBitmap(bitmap, null, rectangle, null);
+
+                if(xInit != null && yInit != null) {
+                    canvas.drawPoint(xInit, yInit, p);
+                }
+
+                if(xCourant != null && yCourant != null) {
+                    canvas.drawRect(xInit, yInit, xCourant, yCourant, p);
+                }
+
+                imageView.setImageBitmap(bmap);
+                return true;
+            }
+        });
 
         // prendre une photo
         takePhoto();
