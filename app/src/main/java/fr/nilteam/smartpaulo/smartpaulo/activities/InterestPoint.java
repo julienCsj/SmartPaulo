@@ -19,10 +19,10 @@ public class InterestPoint extends AppCompatActivity {
 
     private PointOfInterest poi;
 
-    private Float x1;
-    private Float x2;
-    private Float y1;
-    private Float y2;
+    private Double x1;
+    private Double x2;
+    private Double y1;
+    private Double y2;
 
 
     @Override
@@ -48,19 +48,18 @@ public class InterestPoint extends AppCompatActivity {
         TextView textTags = (TextView) findViewById(R.id.textTag);
         textTags.setText("Tag : "+poi.getTags());
 
+        x1 = poi.getX1();
+        x2 = poi.getX2();
+
+        y1 = poi.getY1();
+        y2 = poi.getY2();
+
         APIService.INSTANCE.fetchPhoto(this, poi);
     }
 
 
     public void outputPhoto(Bitmap bitmapPhoto) {
         ImageView photo = (ImageView) findViewById(R.id.photo);
-        //photo.setImageBitmap(bitmapPhoto);
-
-        Canvas canvas = new Canvas(bitmapPhoto);
-        Paint p = new Paint();
-        p.setColor(Color.RED);
-        p.setAlpha(45);
-        canvas.drawRect(x1, y1, x2, y2, p);
         photo.setImageBitmap(bitmapPhoto);
     }
 }
