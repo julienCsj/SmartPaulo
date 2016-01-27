@@ -47,10 +47,10 @@ public class FormulairePhoto extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Bitmap bitmap;
     private SharedPreferences settings;
-    private Float x1;
-    private Float x2;
-    private Float y1;
-    private Float y2;
+    private Double x1;
+    private Double x2;
+    private Double y1;
+    private Double y2;
 
     private String tag;
 
@@ -104,12 +104,19 @@ public class FormulairePhoto extends AppCompatActivity {
                 if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
                     xInit = motionEvent.getX();
                     yInit = motionEvent.getY();
+
+                    x1 = xInit.doubleValue();
+                    y1 = yInit.doubleValue();
+
                 } else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
                     xFinal = motionEvent.getX();
                     yFinal = motionEvent.getY();
                 } else {
                     xCourant = motionEvent.getX();
                     yCourant = motionEvent.getY();
+
+                    x2 = xCourant.doubleValue();
+                    y2 = yCourant.doubleValue();
                 }
 
                 ImageView imageView = (ImageView) view;

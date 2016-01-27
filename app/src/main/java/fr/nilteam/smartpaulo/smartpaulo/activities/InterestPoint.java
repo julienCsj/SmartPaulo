@@ -54,18 +54,13 @@ public class InterestPoint extends AppCompatActivity {
 
     public void outputPhoto(Bitmap bitmapPhoto) {
         ImageView photo = (ImageView) findViewById(R.id.photo);
-        photo.setImageBitmap(bitmapPhoto);
+        //photo.setImageBitmap(bitmapPhoto);
 
-        photo.buildDrawingCache();
-        Bitmap bmap = photo.getDrawingCache();
-
-        Canvas canvas = new Canvas(bmap);
-
+        Canvas canvas = new Canvas(bitmapPhoto);
         Paint p = new Paint();
         p.setColor(Color.RED);
         p.setAlpha(45);
-
         canvas.drawRect(x1, y1, x2, y2, p);
-        photo.setImageBitmap(bmap);
+        photo.setImageBitmap(bitmapPhoto);
     }
 }
